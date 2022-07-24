@@ -10,13 +10,16 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useForm, SubmitHandler } from "react-hook-form";
-import {useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { formReducer } from "../../../redux/formReducer";
 import { RootState } from "../../../redux/store";
 import { formatThePrice } from "../../../utils/formatThePrice";
 type Inputs = {
   name: string;
   email: string;
-  sexo: string;
+  gender: string;
 };
 
 export default function Form() {
@@ -26,9 +29,14 @@ export default function Form() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { total } = useSelector((state: RootState) => state.cart);
 
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    dispatch(formReducer(data));
+    return navigate("/checkout");
+  };
 
   return (
     <Box mt={4} display={"flex"} justifyContent="flex-start">
@@ -106,14 +114,14 @@ export default function Form() {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Sexo"
-                {...register("sexo", { required: true })}
-                color={errors.sexo && "error"}
+                {...register("gender", { required: true })}
+                color={errors.gender && "error"}
                 sx={{ width: "100%" }}
               >
                 <MenuItem value="Masculino">Masculino</MenuItem>
                 <MenuItem value="Feminino">Feminino</MenuItem>
               </Select>
-              {errors.sexo && (
+              {errors.gender && (
                 <FormHelperText sx={{ color: "red" }}>
                   *Campo obrigatório*
                 </FormHelperText>

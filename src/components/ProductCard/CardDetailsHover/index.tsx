@@ -11,6 +11,7 @@ import {
   incrementAmountOfProduct,
 } from "../../../redux/cartReducer";
 import { RootState } from "../../../redux/store";
+import { toast } from "react-toastify";
 interface CardDetailsHoverProps {
   product: IData;
 }
@@ -19,9 +20,17 @@ export default function CardDetailsHover({ product }: CardDetailsHoverProps) {
   const dispatch = useDispatch();
   const { cardsItem } = useSelector((state: RootState) => state.cart);
   const cart = cardsItem.find((item) => item.id === product.id);
-  
+
   function handlePurchaseCalculation() {
+    if (product.amount === 0) {
+      return toast.error("Antes de adicionar, selecione a quantidade.");
+    }
+    if (cart?.amount === 0) {
+      dispatch(calculateTheTotalPurchase());
+      return toast.success("Produto removido do carrinho com sucesso!");
+    }
     dispatch(calculateTheTotalPurchase());
+    return toast.success("Produto adicionado no carrinho com sucesso!");
   }
   return (
     <Box
