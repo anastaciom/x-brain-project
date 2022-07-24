@@ -7,7 +7,7 @@ export default function Footer() {
       <Typography variant="h5" color={"#333"} pb={1}>
         Dados do cliente
       </Typography>
-      <Divider/>
+      <Divider />
       <Form />
     </Box>
   );

@@ -4,11 +4,25 @@ import { formatThePrice } from "../../../utils/formatThePrice";
 import RemoveIcon from "../../../assets/icons/baseline-remove-24px.svg";
 import AddIcon from "../../../assets/icons/baseline-add-24px.svg";
 import { boxStyles, inputNameStyles } from "./additionalStyles";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  calculateTheTotalPurchase,
+  decrementAmountOfProduct,
+  incrementAmountOfProduct,
+} from "../../../redux/cartReducer";
+import { RootState } from "../../../redux/store";
 interface CardDetailsHoverProps {
   product: IData;
 }
 
 export default function CardDetailsHover({ product }: CardDetailsHoverProps) {
+  const dispatch = useDispatch();
+  const { cardsItem } = useSelector((state: RootState) => state.cart);
+  const cart = cardsItem.find((item) => item.id === product.id);
+  
+  function handlePurchaseCalculation() {
+    dispatch(calculateTheTotalPurchase());
+  }
   return (
     <Box
       width={"100%"}
@@ -68,11 +82,16 @@ export default function CardDetailsHover({ product }: CardDetailsHoverProps) {
             justifyContent={"center"}
             bgcolor={"gray"}
             borderRadius={"50%"}
+            onClick={() => dispatch(decrementAmountOfProduct(product))}
           >
             <img src={RemoveIcon} alt="remover item" />
           </Box>
 
-          <TextField value={3} type={"number"} sx={inputNameStyles} />
+          <TextField
+            value={cart ? cart?.amount : product.amount}
+            type={"number"}
+            sx={inputNameStyles}
+          />
 
           <Box
             padding={0.5}
@@ -81,6 +100,7 @@ export default function CardDetailsHover({ product }: CardDetailsHoverProps) {
             justifyContent={"center"}
             bgcolor={"gray"}
             borderRadius={"50%"}
+            onClick={() => dispatch(incrementAmountOfProduct(product))}
           >
             <img src={AddIcon} alt="adicionar item" />
           </Box>
@@ -92,7 +112,11 @@ export default function CardDetailsHover({ product }: CardDetailsHoverProps) {
           justifyContent={"center"}
           mt={2}
         >
-          <Button variant="contained" fullWidth>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={() => handlePurchaseCalculation()}
+          >
             Adicionar
           </Button>
         </Box>

@@ -10,7 +10,9 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useForm, SubmitHandler } from "react-hook-form";
-
+import {useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { formatThePrice } from "../../../utils/formatThePrice";
 type Inputs = {
   name: string;
   email: string;
@@ -23,7 +25,11 @@ export default function Form() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
+
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const { total } = useSelector((state: RootState) => state.cart);
+
+
   return (
     <Box mt={4} display={"flex"} justifyContent="flex-start">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -116,7 +122,6 @@ export default function Form() {
           </Box>
         </Box>
         <Box
-          // bgcolor="red"
           display={"flex"}
           justifyContent="center"
           alignItems={"flex-end"}
@@ -143,7 +148,7 @@ export default function Form() {
             fontWeight={"500"}
             color="#333"
           >
-            Total: R$ 200,00
+            Total: {formatThePrice(total)}
           </Typography>
           <Button
             sx={{ background: "orange" }}
