@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import CheckoutPage from "../pages/Checkout";
+import Error404Page from "../pages/Error404";
 import ProductsPage from "../pages/Products";
 import { RootState } from "../redux/store";
 
@@ -21,7 +22,7 @@ export default function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="*" element={<h1>ERRORR</h1>} />
+      <Route path="*" element={<Error404Page/>} />
       <Route path="/" element={<ProductsPage />} />
       <Route path="/checkout" element={<PrivateRoute />} />
     </Routes>

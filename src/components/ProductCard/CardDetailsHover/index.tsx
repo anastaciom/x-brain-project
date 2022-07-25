@@ -27,7 +27,7 @@ export default function CardDetailsHover({ product }: CardDetailsHoverProps) {
     }
     if (cart?.amount === 0) {
       dispatch(calculateTheTotalPurchase());
-      return toast.success("Produto removido do carrinho com sucesso!");
+      return toast.info("Produto removido do carrinho com sucesso!");
     }
     dispatch(calculateTheTotalPurchase());
     return toast.success("Produto adicionado no carrinho com sucesso!");
@@ -101,7 +101,6 @@ export default function CardDetailsHover({ product }: CardDetailsHoverProps) {
             type={"number"}
             sx={inputNameStyles}
           />
-
           <Box
             padding={0.5}
             display={"flex"}

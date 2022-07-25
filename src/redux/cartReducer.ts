@@ -47,24 +47,25 @@ const cart = createSlice({
       const productDecrement = state.cardsItem.findIndex(
         (item) => item.id === action.payload.id
       );
-      if (
-        productDecrement >= 0 &&
-        state.cardsItem[productDecrement].amount !== 0
-      ) {
-        state.cardsItem[productDecrement].amount -= 1;
+      if (productDecrement >= 0) {
+        if (state.cardsItem[productDecrement].amount >= 1) {
+          state.cardsItem[productDecrement].amount -= 1;
+        }
       } else {
-        const newProduct = {
-          ...action.payload,
-          amount:
-            action.payload.amount !== 0
-              ? (action.payload.amount -= 1)
-              : (action.payload.amount = 0),
-        };
-        state.cardsItem.push(newProduct);
+        if (action.payload.amount >= 1) {
+          const newProduct = {
+            ...action.payload,
+            amount: (action.payload.amount -= 1),
+          };
+          state.cardsItem.push(newProduct);
+        }
       }
     },
   },
 });
-export const { calculateTheTotalPurchase, incrementAmountOfProduct, decrementAmountOfProduct } =
-  cart.actions;
+export const {
+  calculateTheTotalPurchase,
+  incrementAmountOfProduct,
+  decrementAmountOfProduct,
+} = cart.actions;
 export default cart.reducer;

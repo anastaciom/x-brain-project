@@ -16,6 +16,12 @@ import { useNavigate } from "react-router-dom";
 import { formReducer } from "../../../redux/formReducer";
 import { RootState } from "../../../redux/store";
 import { formatThePrice } from "../../../utils/formatThePrice";
+import PrimaryButton from "../../PrimaryButton";
+import {
+  inputEmailStyle,
+  inputGenderStyle,
+  inputNameStyle,
+} from "./additionalStyles";
 type Inputs = {
   name: string;
   email: string;
@@ -23,15 +29,15 @@ type Inputs = {
 };
 
 export default function Form() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { total } = useSelector((state: RootState) => state.cart);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { total } = useSelector((state: RootState) => state.cart);
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     dispatch(formReducer(data));
@@ -48,17 +54,7 @@ export default function Form() {
           gap={2}
           flexWrap={"wrap"}
         >
-          <Box
-            display={"flex"}
-            flexDirection={"column"}
-            width={{
-              xs: "100%",
-              sm: 300,
-              md: 400,
-              lg: 440,
-              xl: 700,
-            }}
-          >
+          <Box display={"flex"} flexDirection={"column"} width={inputNameStyle}>
             <TextField
               fullWidth
               id="outlined-name"
@@ -75,13 +71,7 @@ export default function Form() {
           <Box
             display={"flex"}
             flexDirection={"column"}
-            width={{
-              xs: "100%",
-              sm: 260,
-              md: 300,
-              lg: 350,
-              xl: 490,
-            }}
+            width={inputEmailStyle}
           >
             <TextField
               fullWidth
@@ -100,13 +90,7 @@ export default function Form() {
           <Box
             display={"flex"}
             flexDirection={"column"}
-            width={{
-              xs: "100%",
-              sm: 200,
-              md: 150,
-              lg: 200,
-              xl: 300,
-            }}
+            width={inputGenderStyle}
           >
             <FormControl fullWidth>
               <InputLabel id="demo-simple-select-label">Sexo</InputLabel>
@@ -158,13 +142,7 @@ export default function Form() {
           >
             Total: {formatThePrice(total)}
           </Typography>
-          <Button
-            sx={{ background: "orange" }}
-            variant="contained"
-            type="submit"
-          >
-            Finalizar compra
-          </Button>
+          <PrimaryButton btnName="Finalizar compra" type="submit" />
         </Box>
       </form>
     </Box>

@@ -1,16 +1,14 @@
 import { Button, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import PurchaseImage from "../assets/images/purchase.png";
+import PrimaryButton from "../components/PrimaryButton";
 import { RootState } from "../redux/store";
 import { formatThePrice } from "../utils/formatThePrice";
 
 export default function CheckoutPage() {
   const { total } = useSelector((state: RootState) => state.cart);
   const { data } = useSelector((state: RootState) => state.form);
-  const navigate = useNavigate();
-
   return (
     <Box
       width={"100%"}
@@ -84,14 +82,10 @@ export default function CheckoutPage() {
           justifyContent="center"
           display="flex"
         >
-          <Button
-            sx={{ background: "orange" }}
-            variant="contained"
-            type="submit"
+          <PrimaryButton
+            btnName="Iniciar nova compra"
             onClick={() => window.location.reload()}
-          >
-            Iniciar nova compra
-          </Button>
+          />
         </Box>
       </Box>
     </Box>
